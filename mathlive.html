@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MathLive Virtual Keyboard</title>
+    <script defer src="https://unpkg.com/mathlive"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        math-field {
+            width: 100%;
+            padding: 10px;
+            font-size: 24px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>MathLive Virtual Keyboard Example</h2>
+
+    <!-- MathLive Editable Field -->
+    <math-field 
+        id="math-input" 
+        virtual-keyboard-mode="onfocus"
+        virtual-keyboard-layout="qwerty"
+        virtual-keyboard-theme="apple"
+    ></math-field>
+
+    <p>Type or use the virtual keyboard to enter math expressions.</p>
+
+    <!-- Show LaTeX Output -->
+    <h3>LaTeX Output:</h3>
+    <code id="latex-output"></code>
+
+    <script>
+        const mathField = document.getElementById("math-input");
+        const output = document.getElementById("latex-output");
+
+        // Update LaTeX Output in Real-Time
+        mathField.addEventListener("input", () => {
+            output.textContent = mathField.value;
+        });
+    </script>
+
+</body>
+</html>
