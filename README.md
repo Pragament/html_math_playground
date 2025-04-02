@@ -6,6 +6,8 @@ a sidebar with clickable topics, each preloading a relevant Math.js example into
 
 This interactive editor allows you to write and execute Math.js expressions directly in the browser.
 
+https://mathjs.org/examples/index.html
+
 - Algebra
 - Basic usage
 - Bignumbers
