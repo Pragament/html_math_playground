@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math.js Try It Yourself</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.3.1/math.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            margin: 0;
+            height: 100vh;
+        }
+        #sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        #sidebar h3 {
+            margin-top: 0;
+        }
+        #sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 8px;
+            display: block;
+            cursor: pointer;
+        }
+        #sidebar a:hover {
+            background: #34495e;
+        }
+        #content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        textarea {
+            width: 80%;
+            height: 150px;
+            font-size: 16px;
+        }
+        button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        pre {
+            width: 80%;
+            background: #f4f4f4;
+            padding: 10px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h3>Math.js Topics</h3>
+        <a onclick="loadExample('Algebra')">Algebra</a>
+        <a onclick="loadExample('Basic usage')">Basic usage</a>
+        <a onclick="loadExample('Bignumbers')">Bignumbers</a>
+        <a onclick="loadExample('Chaining')">Chaining</a>
+        <a onclick="loadExample('Complex numbers')">Complex numbers</a>
+        <a onclick="loadExample('Expressions')">Expressions</a>
+        <a onclick="loadExample('Fractions')">Fractions</a>
+        <a onclick="loadExample('Import')">Import</a>
+        <a onclick="loadExample('Matrices')">Matrices</a>
+        <a onclick="loadExample('Objects')">Objects</a>
+        <a onclick="loadExample('Serialization')">Serialization</a>
+        <a onclick="loadExample('Sparse matrices')">Sparse matrices</a>
+        <a onclick="loadExample('Units')">Units</a>
+    </div>
+    <div id="content">
+        <h2>Math.js Try It Yourself</h2>
+        <p>Enter Math.js expressions below and click "Run" to evaluate.</p>
+        <textarea id="editor"></textarea>
+        <button onclick="runCode()">Run</button>
+        <h3>Output:</h3>
+        <pre id="output"></pre>
+    </div>
+    
+    <script>
+        const examples = {
+            "Algebra": "math.simplify('2x + 3x')",
+            "Basic usage": "math.sqrt(16)\nmath.eval('2 + 3 * 4')",
+            "Bignumbers": "math.bignumber('1.23456789e+500')",
+            "Chaining": "math.chain(3).add(4).multiply(2).done()",
+            "Complex numbers": "math.complex('2 + 3i')",
+            "Expressions": "math.evaluate('2 * (3 + 4)')",
+            "Fractions": "math.fraction(0.125)",
+            "Import": "// math.import can be used for loading custom functions",
+            "Matrices": "math.matrix([[1,2],[3,4]])",
+            "Objects": "math.unit('5 cm')",
+            "Serialization": "math.json.reviver",
+            "Sparse matrices": "math.sparse([[0, 1], [0, 2]])",
+            "Units": "math.unit('45 deg').to('rad')"
+        };
+
+        function loadExample(topic) {
+            document.getElementById('editor').value = examples[topic] || '';
+        }
+
+        function runCode() {
+            const code = document.getElementById('editor').value;
+            try {
+                const result = eval(code);
+                document.getElementById('output').innerText = result;
+            } catch (error) {
+                document.getElementById('output').innerText = 'Error: ' + error;
+            }
+        }
+    </script>
+</body>
+</html>
