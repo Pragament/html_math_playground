@@ -89,6 +89,9 @@
     <script src="https://unpkg.com/mathlive/dist/mathlive.min.js"></script>
     
     <script>
+        // Get the Delta class from Quill
+        const Delta = Quill.import('delta');
+        
         // Initialize Quill
         const quill = new Quill('#editor-container', {
             modules: {
