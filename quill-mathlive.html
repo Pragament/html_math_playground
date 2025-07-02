@@ -8,6 +8,9 @@
     <!-- QuillJS CSS -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     
+    <!-- MathLive CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive-static.css">
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,7 +21,7 @@
             height: 500px;
             margin-bottom: 20px;
         }
-        .mathfield {
+        math-field {
             display: inline-block;
             border: 1px solid #ddd;
             padding: 2px 5px;
@@ -82,10 +85,10 @@
     <!-- QuillJS Script -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     
-    <!-- MathLive Script -->
-    <script src="https://unpkg.com/mathlive"></script>
-    
-    <script>
+    <!-- MathLive Script (using recommended loading method) -->
+    <script type="module">
+        import 'https://unpkg.com/mathlive';
+        
         // Get the Delta class from Quill
         const Delta = Quill.import('delta');
         
@@ -100,20 +103,9 @@
         
         // Function to create a new mathfield
         function createMathField() {
-            const span = document.createElement('span');
-            span.className = 'mathfield';
-            
-            const mf = mathlive.makeMathField(span, {
-                virtualKeyboardMode: 'manual',
-                virtualKeyboards: 'all',
-                onContentDidChange: (mf) => {
-                    // Update the Quill delta when math content changes
-                    const delta = quill.getContents();
-                    quill.setContents(delta);
-                }
-            });
-            
-            return span;
+            const mf = document.createElement('math-field');
+            mf.style.display = 'inline-block';
+            return mf;
         }
         
         // Handle math insertion
@@ -121,14 +113,16 @@
             const range = quill.getSelection();
             if (range) {
                 const mathNode = createMathField();
-                quill.clipboard.dangerouslyPasteHTML(range.index, mathNode.outerHTML);
+                const wrapper = document.createElement('div');
+                wrapper.appendChild(mathNode);
+                quill.clipboard.dangerouslyPasteHTML(range.index, wrapper.innerHTML);
                 
                 // Focus the new mathfield
                 setTimeout(() => {
-                    const mathFields = document.querySelectorAll('.mathfield');
+                    const mathFields = document.querySelectorAll('math-field');
                     const newMathField = mathFields[mathFields.length - 1];
-                    if (newMathField && newMathField.mathfield) {
-                        newMathField.mathfield.focus();
+                    if (newMathField) {
+                        newMathField.focus();
                     }
                 }, 0);
             }
@@ -154,8 +148,10 @@
                         
                         // Create mathfield for the LaTeX
                         const mathNode = createMathField();
-                        mathNode.mathfield.setValue(match[1]);
-                        delta.insert({ mathfield: mathNode.outerHTML });
+                        mathNode.value = match[1];
+                        const wrapper = document.createElement('div');
+                        wrapper.appendChild(mathNode);
+                        delta.insert({ mathfield: wrapper.innerHTML });
                         
                         lastIndex = match.index + match[0].length;
                     }
